@@ -1,0 +1,8 @@
+# Inserts the plugin advisor into the profile.
+# proactive: true lets a high-confidence match surface on a user instruction;
+# the advisor's soft gate then asks once before switching to a plugin.
+- insert:
+    - id: plugin-advisor
+      name: 'plugin-advisor'
+      config:
+        proactive: true

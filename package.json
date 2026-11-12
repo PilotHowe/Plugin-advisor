@@ -1,0 +1,47 @@
+{
+  "name": "plugin-advisor",
+  "version": "0.1.0",
+  "description": "DSH 插件顾问：不用逛插件市场，也不用想关键词。说出你的任务，它从 1 万+ 社区插件里推荐可复用的优质插件，判断质量并给出上手步骤——让经过验证的方案直接为你所用，把精力留给真正的新问题。 · Plugin advisor for DeepSeek Harness: describe a task and it recommends, judges, and onboards the right community plugin from 10,000+ entries — no manual market browsing, no keyword guessing; proven solutions put to work for you.",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "lib",
+    "skill.md",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "license": "MIT",
+  "author": "PilotHowe",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PilotHowe/Plugin-advisor.git"
+  },
+  "homepage": "https://github.com/PilotHowe/Plugin-advisor#readme",
+  "bugs": {
+    "url": "https://github.com/PilotHowe/Plugin-advisor/issues"
+  },
+  "keywords": [
+    "deepseek",
+    "harness",
+    "dsh",
+    "dsh-plugin",
+    "plugin",
+    "advisor",
+    "search",
+    "marketplace"
+  ]
+}
