@@ -45,6 +45,8 @@
 - 持久默认：在 profile patch 的 `config:` 下改 `proactive`。
 - 同一会话每 3 条用户消息最多提示一次；斜杠命令、短回复、系统通知、已经提到插件的消息不会触发。
 
+## 工具
+
 | 工具 | 用途 |
 |---|---|
 | `plugin_search` | 多组关键词检索目录 |
@@ -52,12 +54,6 @@
 | `plugin_guide` | 有据可查的上手卡 |
 
 技能 `plugin-advisor` 会指导 Agent 的检索、判断、推荐、安装与上手格式。
-
-## 开关
-
-- 会话级：`/plugin-hint on`、`/plugin-hint off`、`/plugin-hint status`（立即生效，不写文件）。
-- 持久默认：在 profile patch 的 `config:` 下写 `proactive: true`，或在安装时修改本包的 `cordis.patch.yml`。
-- 主动模式默认关闭；开启后同一会话每 3 条用户消息最多提示一次，斜杠命令、短回复、已经提到插件的消息不会触发。
 
 ## 配置（均为可选）
 
@@ -81,3 +77,86 @@
 - 不收集、不上传任何遥测；查询只在本机内存里检索。
 - 不打印 token、本机路径或密钥；GitHub token 只从配置/环境变量读取。
 - 插件不执行安装；安装由 Agent 通过 `plugin_manager` 在你确认后进行。
+
+---
+
+# Plugin advisor (English)
+
+A community plugin advisor for DeepSeek Harness. **No manual market browsing, and no need to know a plugin's name first**: describe your task and it recommends reusable, high-quality plugins from a catalog of 10,000+ entries, judges their quality, and gives you grounded onboarding steps. It searches the community plugin catalog (the `plugins.json` in the `dsh-plugin-catalog` npm package), not the locally installed plugins.
+
+## Install
+
+- **From GitHub (no build step)**:
+
+  ```sh
+  dsh plugin --profile <profile> add github:PilotHowe/Plugin-advisor
+  ```
+
+  On the desktop app, enter `github:PilotHowe/Plugin-advisor` in **Plugins → Add plugin**.
+- **npm (once published)**: `dsh plugin --profile <profile> add plugin-advisor`
+- After installation, just describe a task in chat; `/plugin-hint on` / `off` controls proactive hints and `/plugin-hint status` shows the current state.
+
+## The problem it solves
+
+- **Too many plugins, hard to find prior work — and you should not have to know the plugin's name first**: with 10,000+ entries, keyword search only tells you whether a few characters appear in a name; many tasks start from scratch while proven solutions sit unused. The advisor breaks the task into keywords (Chinese and English aliases, multiple queries), finds the entry that is already built and worth reusing or building on with quality facts, and surfaces its repository, license, and `dsh.bundle.patch` path.
+- **Finding one is not the same as being able to use it**: READMEs are written for authors, so non-experts do not know what to prepare, what the first step is, or how to verify. The advisor turns the README and package manifest into a grounded onboarding card (prerequisites / 3 steps / examples / verification / troubleshooting / uninstall) and marks what the README does not say instead of filling in the gaps.
+- **A quick try rarely unlocks the plugin's real value**: value comes from the right scenario, configuration, and prompts. On a high-confidence match the advisor asks whether to use the plugin, then provides copy-paste examples and the key configuration points — instead of leaving it installed but unused.
+
+## What it does
+
+- **Find plugins by goal**: turns "convert this PDF to Markdown while keeping formulas" into Chinese and English keywords and returns candidates with quality facts, capability disclosure, deprecation/replacement, and install specs.
+- **Judge quality**: maintenance activity, documentation completeness, license, host requirement, capability red lines; stars and downloads are reference only.
+- **Provide onboarding steps**: extracts prerequisites / 3 steps / configuration / examples / verification / troubleshooting / uninstall from the README and manifest; explicitly marks missing sections.
+- **Check whether you can build on it**: repository, license, `dsh.bundle.patch` path, and manifest highlights.
+- **High-confidence proactive hints**: enabled by default, but only when the match is strong enough. Once triggered it follows the "soft gate" — asks before switching to a plugin instead of switching silently.
+
+## Soft gate
+
+When the match is strong and the task's core outcome is what the plugin is good at (PDF layout/formulas, scanned-document OCR, Excel formulas, browser automation with a logged-in session, scheduled triggers, etc.), it asks before starting:
+
+> This task is a better fit for `<plugin name>`: <one-line reason>. Should I install it and use it, or do it with what's already available?
+
+- User says "use the plugin" → show source and capability disclosure, install, then complete the task.
+- User says "just do it" → complete it with built-in capabilities and do not mention the plugin again for this task.
+- Ordinary coding, file edits, search, summaries, and Q&A do not trigger it; weak matches do not trigger it either.
+
+## Toggle
+
+- Proactive hints are **on by default** (`proactive: true`), but only high-confidence matches trigger them.
+- Per session: `/plugin-hint off`, `/plugin-hint on`, `/plugin-hint status` (takes effect immediately; writes no files).
+- Persistent default: change `proactive` under `config:` in the profile patch.
+- At most one hint per 3 user messages in a session; slash commands, short replies, system notices, and messages that already mention plugins do not trigger it.
+
+## Tools
+
+| Tool | Purpose |
+|---|---|
+| `plugin_search` | Search the catalog with multiple keyword groups |
+| `plugin_inspect` | One plugin's details, README excerpt, similar/alternative entries, build-on information |
+| `plugin_guide` | A grounded onboarding card |
+
+The `plugin-advisor` skill guides the agent's search, judgment, recommendation, installation, and onboarding format.
+
+## Configuration (all optional)
+
+| Key | Default | Description |
+|---|---|---|
+| `proactive` | `true` | Persistent default for high-confidence proactive hints |
+| `catalogUrl` | official catalog | Catalog URL; also via `PLUGIN_ADVISOR_CATALOG_URL` / `DSHM_REGISTRY_URL` |
+| `githubToken` | empty | Raises GitHub API rate limits; also via `PLUGIN_ADVISOR_GITHUB_TOKEN` |
+| `readmeChars` | `1200` | README excerpt length for `plugin_inspect` (400–4000) |
+| `profile` | `DSH_PROFILE` | Profile name used in the install/uninstall commands of onboarding cards |
+
+## Data sources
+
+- Catalog: `plugins.json` from the `dsh-plugin-catalog` npm package (a ~4 MB tarball, downloadable in seconds; 30-minute in-memory cache; when a refresh fails, a cache younger than 6 hours is returned with a stale marker). The official JSON `https://awesome-dsh-plugin.com/plugins.json` is the fallback; `catalogUrl` / `PLUGIN_ADVISOR_CATALOG_URL` / `DSHM_REGISTRY_URL` can point at a mirror.
+- npm manifests and READMEs: `https://registry.npmjs.org/<pkg>/latest`.
+- GitHub READMEs and repository facts: `https://api.github.com` (60 requests/hour unauthenticated).
+- `raw.githubusercontent.com` / `cdn.jsdelivr.net` are not used (measured unreachable on the target network).
+
+## Privacy
+
+- No telemetry is collected or uploaded; queries are searched in local memory only.
+- Tokens, local paths, and secrets are never printed; a GitHub token is read only from configuration/environment variables.
+- The plugin never installs anything itself; installation is performed by the agent through `plugin_manager` after you confirm.
+
