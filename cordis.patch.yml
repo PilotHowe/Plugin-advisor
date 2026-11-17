@@ -1,8 +1,8 @@
-# Inserts the plugin advisor into the profile.
+# Inserts the plugin buddy into the profile.
 # proactive: true lets a high-confidence match surface on a user instruction;
-# the advisor's soft gate then asks once before switching to a plugin.
+# the buddy's soft gate then asks once before switching to a plugin.
 - insert:
-    - id: plugin-advisor
-      name: 'plugin-advisor'
+    - id: plugin-buddy
+      name: 'dsh-plugin-buddy'
       config:
         proactive: true

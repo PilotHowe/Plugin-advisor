@@ -1,24 +1,24 @@
-# 插件顾问（Plugin advisor）
+# 插件搭子（Plugin Buddy）
 
-装在 DeepSeek Harness 里的社区插件顾问。**不用手动逛插件市场，也不用先知道插件叫什么**：说出你的任务，它就从 1 万+ 条社区插件目录里推荐可复用的优质插件，判断质量，并给出有据可查的上手步骤。检索的是插件市场目录（npm 包 `dsh-plugin-catalog` 的 `plugins.json`），不是本机已安装列表。
+装在 DeepSeek Harness 里的社区插件搭子。**不用手动逛插件市场，也不用先知道插件叫什么**：说出你的任务，它就从 1 万+ 条社区插件目录里推荐可复用的优质插件，判断质量，并给出有据可查的上手步骤。检索的是插件市场目录（npm 包 `dsh-plugin-catalog` 的 `plugins.json`），不是本机已安装列表。
 
 ## 安装
 
 - **从 GitHub（无需构建）**：
 
   ```sh
-  dsh plugin --profile <profile> add github:PilotHowe/Plugin-advisor
+  dsh plugin --profile <profile> add github:PilotHowe/dsh-plugin-buddy
   ```
 
-  桌面端也可以在「插件 → 添加插件」里填入 `github:PilotHowe/Plugin-advisor`。
-- **npm（发布后）**：`dsh plugin --profile <profile> add plugin-advisor`
+  桌面端也可以在「插件 → 添加插件」里填入 `github:PilotHowe/dsh-plugin-buddy`。
+- **npm（发布后）**：`dsh plugin --profile <profile> add dsh-plugin-buddy`
 - 安装后在对话里直接说任务；`/plugin-hint on` / `off` 控制主动提示，`/plugin-hint status` 查看状态。
 
 ## 解决什么问题
 
-- **插件太多，找不到前人的成果，也不想自己先知道插件叫什么**：1 万+ 条目录、关键词搜索往往只知道名字里有没有那几个字；很多任务因此从头再来，已经验证过的方案反而闲置。插件顾问按任务拆词、中英别名、多查询融合，并带质量事实地找到「已经有人做好、值得复用/二创」的那一个，同时给出仓库、许可证、`dsh.bundle.patch` 路径。
-- **找到了也不会用**：README 面向作者，非专业用户不知道装前要什么、第一步怎么走、怎么验证。插件顾问把 README/包清单整理成有据可查的上手卡（装前准备 / 3 步上手 / 示例 / 验证 / 排错 / 卸载），README 没写的会明确标出，不替作者补全。
-- **简单用一下，发挥不出最大价值**：插件的价值在「用对场景 + 配置 + 提示词」。插件顾问在高置信度时先问你是否用插件，并给出可直接粘贴的示例提示词与配置要点，而不是装完就丢。
+- **插件太多，找不到前人的成果，也不想自己先知道插件叫什么**：1 万+ 条目录、关键词搜索往往只知道名字里有没有那几个字；很多任务因此从头再来，已经验证过的方案反而闲置。插件搭子按任务拆词、中英别名、多查询融合，并带质量事实地找到「已经有人做好、值得复用/二创」的那一个，同时给出仓库、许可证、`dsh.bundle.patch` 路径。
+- **找到了也不会用**：README 面向作者，非专业用户不知道装前要什么、第一步怎么走、怎么验证。插件搭子把 README/包清单整理成有据可查的上手卡（装前准备 / 3 步上手 / 示例 / 验证 / 排错 / 卸载），README 没写的会明确标出，不替作者补全。
+- **简单用一下，发挥不出最大价值**：插件的价值在「用对场景 + 配置 + 提示词」。插件搭子在高置信度时先问你是否用插件，并给出可直接粘贴的示例提示词与配置要点，而不是装完就丢。
 
 ## 能做什么
 
@@ -53,7 +53,7 @@
 | `plugin_inspect` | 单插件详情、README 摘录、相似/替代、二创信息 |
 | `plugin_guide` | 有据可查的上手卡 |
 
-技能 `plugin-advisor` 会指导 Agent 的检索、判断、推荐、安装与上手格式。
+技能 `plugin-buddy` 会指导 Agent 的检索、判断、推荐、安装与上手格式。
 
 ## 配置（均为可选）
 
@@ -80,27 +80,27 @@
 
 ---
 
-# Plugin advisor (English)
+# Plugin Buddy (English)
 
-A community plugin advisor for DeepSeek Harness. **No manual market browsing, and no need to know a plugin's name first**: describe your task and it recommends reusable, high-quality plugins from a catalog of 10,000+ entries, judges their quality, and gives you grounded onboarding steps. It searches the community plugin catalog (the `plugins.json` in the `dsh-plugin-catalog` npm package), not the locally installed plugins.
+A community plugin buddy for DeepSeek Harness. **No manual market browsing, and no need to know a plugin's name first**: describe your task and it recommends reusable, high-quality plugins from a catalog of 10,000+ entries, judges their quality, and gives you grounded onboarding steps. It searches the community plugin catalog (the `plugins.json` in the `dsh-plugin-catalog` npm package), not the locally installed plugins.
 
 ## Install
 
 - **From GitHub (no build step)**:
 
   ```sh
-  dsh plugin --profile <profile> add github:PilotHowe/Plugin-advisor
+  dsh plugin --profile <profile> add github:PilotHowe/dsh-plugin-buddy
   ```
 
-  On the desktop app, enter `github:PilotHowe/Plugin-advisor` in **Plugins → Add plugin**.
-- **npm (once published)**: `dsh plugin --profile <profile> add plugin-advisor`
+  On the desktop app, enter `github:PilotHowe/dsh-plugin-buddy` in **Plugins → Add plugin**.
+- **npm (once published)**: `dsh plugin --profile <profile> add dsh-plugin-buddy`
 - After installation, just describe a task in chat; `/plugin-hint on` / `off` controls proactive hints and `/plugin-hint status` shows the current state.
 
 ## The problem it solves
 
-- **Too many plugins, hard to find prior work — and you should not have to know the plugin's name first**: with 10,000+ entries, keyword search only tells you whether a few characters appear in a name; many tasks start from scratch while proven solutions sit unused. The advisor breaks the task into keywords (Chinese and English aliases, multiple queries), finds the entry that is already built and worth reusing or building on with quality facts, and surfaces its repository, license, and `dsh.bundle.patch` path.
-- **Finding one is not the same as being able to use it**: READMEs are written for authors, so non-experts do not know what to prepare, what the first step is, or how to verify. The advisor turns the README and package manifest into a grounded onboarding card (prerequisites / 3 steps / examples / verification / troubleshooting / uninstall) and marks what the README does not say instead of filling in the gaps.
-- **A quick try rarely unlocks the plugin's real value**: value comes from the right scenario, configuration, and prompts. On a high-confidence match the advisor asks whether to use the plugin, then provides copy-paste examples and the key configuration points — instead of leaving it installed but unused.
+- **Too many plugins, hard to find prior work — and you should not have to know the plugin's name first**: with 10,000+ entries, keyword search only tells you whether a few characters appear in a name; many tasks start from scratch while proven solutions sit unused. Plugin Buddy breaks the task into keywords (Chinese and English aliases, multiple queries), finds the entry that is already built and worth reusing or building on with quality facts, and surfaces its repository, license, and `dsh.bundle.patch` path.
+- **Finding one is not the same as being able to use it**: READMEs are written for authors, so non-experts do not know what to prepare, what the first step is, or how to verify. Plugin Buddy turns the README and package manifest into a grounded onboarding card (prerequisites / 3 steps / examples / verification / troubleshooting / uninstall) and marks what the README does not say instead of filling in the gaps.
+- **A quick try rarely unlocks the plugin's real value**: value comes from the right scenario, configuration, and prompts. On a high-confidence match Plugin Buddy asks whether to use the plugin, then provides copy-paste examples and the key configuration points — instead of leaving it installed but unused.
 
 ## What it does
 
@@ -135,7 +135,7 @@ When the match is strong and the task's core outcome is what the plugin is good 
 | `plugin_inspect` | One plugin's details, README excerpt, similar/alternative entries, build-on information |
 | `plugin_guide` | A grounded onboarding card |
 
-The `plugin-advisor` skill guides the agent's search, judgment, recommendation, installation, and onboarding format.
+The `plugin-buddy` skill guides the agent's search, judgment, recommendation, installation, and onboarding format.
 
 ## Configuration (all optional)
 

@@ -1,5 +1,5 @@
 /**
- * Plugin advisor: intent search, quality facts, onboarding guides, and an
+ * Plugin Buddy: intent search, quality facts, onboarding guides, and an
  * optional proactive hint on every user instruction.
  *
  * The plugin is deliberately dependency-free: no Harness package imports, no
@@ -17,7 +17,7 @@ import { buildGuide } from './lib/guide.js';
 import { formatGuide, formatInspect, formatSearch } from './lib/format.js';
 import { buildHint, hintNames, hintQuery, messageText, shouldHint } from './lib/hint.js';
 
-export const name = 'plugin-advisor';
+export const name = 'plugin-buddy';
 export const inject = ['tools', 'skills', 'systemPrompt'];
 
 const SKILL_FALLBACK = [
@@ -205,7 +205,7 @@ export function apply(ctx, config = {}) {
   function registerSkill(pluginCtx) {
     try {
       pluginCtx.skills.register({
-        name: 'plugin-advisor',
+        name: 'plugin-buddy',
         description: 'Find, reuse, compare, install, and learn to use community plugins from a task description, without browsing the market or guessing keywords; also decides when a task is better served by a plugin and asks before switching.',
         whenToUse: 'Use when a user task may be better served by a community plugin (documents, OCR, spreadsheets, browser automation, scheduling, notifications, data), or when the user wants to find, compare, choose, install, or learn to use a DSH plugin, or build on one.',
         content: skillContent,
@@ -213,7 +213,7 @@ export function apply(ctx, config = {}) {
         invocation: { modelInvocable: true, userInvocable: true },
       });
     } catch (error) {
-      pluginCtx.logger?.warn?.(`plugin-advisor: skill registration failed: ${errorMessage(error)}`);
+      pluginCtx.logger?.warn?.(`plugin-buddy: skill registration failed: ${errorMessage(error)}`);
     }
   }
 
@@ -223,7 +223,7 @@ export function apply(ctx, config = {}) {
     try {
       commands.register({
         name: 'plugin-hint',
-        description: '插件顾问：开启/关闭本会话的主动插件推荐（on | off | status）。',
+        description: '插件搭子：开启/关闭本会话的主动插件推荐（on | off | status）。',
         handler: (invocation) => {
           const agent = invocation?.agent;
           const raw = String(invocation?.rawInput ?? '').trim().toLowerCase();
@@ -231,23 +231,23 @@ export function apply(ctx, config = {}) {
           if (raw === 'status' || raw === '状态') {
             const enabled = agent ? isProactive(agent) : options.proactive;
             const source = key !== null && sessionOverrides.has(key) ? '本会话覆盖' : '配置默认';
-            return { kind: 'success', text: `插件顾问主动提示：${enabled ? '开' : '关'}（${source}）。` };
+            return { kind: 'success', text: `插件搭子主动提示：${enabled ? '开' : '关'}（${source}）。` };
           }
           if (raw === '' || raw === 'toggle') {
             const next = agent ? !isProactive(agent) : !options.proactive;
             if (key !== null) sessionOverrides.set(key, next);
-            return { kind: 'success', text: `插件顾问主动提示：${next ? '已开启' : '已关闭'}（本会话）。发送 /plugin-hint status 查看。` };
+            return { kind: 'success', text: `插件搭子主动提示：${next ? '已开启' : '已关闭'}（本会话）。发送 /plugin-hint status 查看。` };
           }
           if (raw === 'on' || raw === 'off') {
             const next = raw === 'on';
             if (key !== null) sessionOverrides.set(key, next);
-            return { kind: 'success', text: `插件顾问主动提示：${next ? '已开启' : '已关闭'}（本会话）。` };
+            return { kind: 'success', text: `插件搭子主动提示：${next ? '已开启' : '已关闭'}（本会话）。` };
           }
           return { kind: 'error', text: '用法：/plugin-hint on | off | status' };
         },
       });
     } catch (error) {
-      pluginCtx.logger?.warn?.(`plugin-advisor: command registration failed: ${errorMessage(error)}`);
+      pluginCtx.logger?.warn?.(`plugin-buddy: command registration failed: ${errorMessage(error)}`);
     }
   }
 
@@ -286,7 +286,7 @@ export function apply(ctx, config = {}) {
       if (systemPrompt === undefined || systemPrompt === null || typeof systemPrompt.context !== 'function') return;
       try {
         const dispose = systemPrompt.context({
-          name: 'plugin-advisor-hint',
+          name: 'plugin-buddy-hint',
           order: 900,
           text: () => {
             if (!active) return '';
@@ -297,7 +297,7 @@ export function apply(ctx, config = {}) {
         });
         perAgent.set(agent, dispose);
       } catch (error) {
-        pluginCtx.logger?.warn?.(`plugin-advisor: hint context registration failed: ${errorMessage(error)}`);
+        pluginCtx.logger?.warn?.(`plugin-buddy: hint context registration failed: ${errorMessage(error)}`);
       }
     }
 
@@ -330,7 +330,7 @@ export function apply(ctx, config = {}) {
         lastHintNames.set(key, names);
         cooldown.set(key, 3);
       } catch (error) {
-        pluginCtx.logger?.warn?.(`plugin-advisor: proactive search failed: ${errorMessage(error)}`);
+        pluginCtx.logger?.warn?.(`plugin-buddy: proactive search failed: ${errorMessage(error)}`);
       }
     }
   }
@@ -422,7 +422,7 @@ function detectProfile() {
   if (typeof home !== 'string' || home === '') return null;
   const root = realpathOrSelf(fileURLToPath(new URL('.', import.meta.url)));
   const profiles = path.join(home, 'profiles');
-  const candidates = [['@local', 'plugin-advisor'], ['plugin-advisor']];
+  const candidates = [['@local', 'plugin-advisor'], ['plugin-advisor'], ['dsh-plugin-buddy'], ['plugin-buddy']];
   try {
     for (const profileName of readdirSync(profiles)) {
       for (const parts of candidates) {
